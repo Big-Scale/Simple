@@ -1,32 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
-import { OpenAI } from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-});
+import { NextRequest, NextResponse } from 'next/server'
+import { Configuration, OpenAIApi } from 'openai'
 
 export async function POST(request: NextRequest) {
-  const { question } = await request.json();
+  const { messages } = await request.json()
 
-  if (!question) {
-    return NextResponse.json({ message: "Question you want to enter" }, { status: 400 });
-  }
+  const configuration = new Configuration({
+    // organization: 'org-*',
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+  const openai = new OpenAIApi(configuration)
 
-  try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: question }],
-    });
-
-    const answer = completion.choices[0].message?.content;
-    return NextResponse.json({ answer });
-  } catch (error: any) {
-    return NextResponse.json(
+  const completion = await openai.createChatCompletion({
+    model: 'gpt-3.5-turbo',
+    messages: [
       {
-        message: "Failed to get response from OpenAI API",
-        error: error.message,
+        role: 'system',
+        content:
+          'You are a helpful assistant who speaks Japanese Kansai dialect.',
       },
-      { status: 500 }
-    );
-  }
+      ...messages,
+    ],
+  })
+  return NextResponse.json({ message: completion.data.choices[0].message })
 }
+
