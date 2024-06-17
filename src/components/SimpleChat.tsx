@@ -37,7 +37,7 @@ const SimpleChat: React.FC = () => {
     // console.log(data);
 
     // return data.answer;
-    return "How can I assist you today?"
+    return "Hi! How can I assist you today?"
   };
 
   return (
@@ -50,12 +50,6 @@ const SimpleChat: React.FC = () => {
         buttonBackgroundColor="#0070f3"
         onSendMessage={handleSendMessage}
       />
-      <Result
-            userAvatarUrl="user.jpg"
-            questionText="Key"
-            botAvatarUrl="bot.png"
-            responseText="OKAY"
-          />
       <div style={{ maxHeight: "400px", overflowY: "auto" }}>
         {messages.map((msg, index) => (
           <Result
