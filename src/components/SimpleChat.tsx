@@ -50,7 +50,7 @@ const SimpleChat: React.FC = () => {
         buttonBackgroundColor="#0070f3"
         onSendMessage={handleSendMessage}
       />
-      <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+      <div style={{ maxHeight: "70vh", overflowY: "auto" }}>
         {messages.map((msg, index) => (
           <Result
             key={index}
